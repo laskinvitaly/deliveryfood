@@ -25,6 +25,7 @@ let login=localStorage.getItem('delivery');
 
 
 function toggleMenuAuth() {
+	loginInput.style.borderColor="";
   modalAuth.classList.toggle("is-open");
 }
 
@@ -53,9 +54,9 @@ function notAutorized(){
 
 	function logIn(event){
 		event.preventDefault();
-		login=loginInput.value;
-
-		if (login){
+		
+		if (loginInput.value.trim()){
+			login=loginInput.value.trim();
 			localStorage.setItem('delivery', login);
 			toggleMenuAuth();
 			buttonAuth.removeEventListener("click", toggleMenuAuth);
@@ -64,7 +65,7 @@ function notAutorized(){
 			logInForm.reset();
 			checkAuth();
 		}else{
-			alert("Не введен логин");
+			loginInput.style.borderColor="red";
 		}
 
 	}
