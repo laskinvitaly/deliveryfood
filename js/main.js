@@ -18,6 +18,13 @@ const cardsMenu=document.querySelector(".cards-menu");
 
 let login=localStorage.getItem('delivery');
 
+
+//Валидация логина
+const validLogin=function(str){
+	const nameReg=/^[a-zA-Z][a-zA-Z0-9-_\.]{1,20}$/;
+	return nameReg.test(str);
+}
+
 function toggleModal() {
   modal.classList.toggle("is-open");
 }
@@ -28,9 +35,16 @@ function toggleMenuAuth() {
   modalAuth.classList.toggle("is-open");
 }
 
+function returnMain(){
+	containerPromo.classList.remove('hide');
+	restaurants.classList.remove('hide');
+	menu.classList.add('hide');
+}
+
 
 function autorized(){
 	function logOut(){
+		returnMain();
 		login=null;
 		localStorage.removeItem('delivery');
 		buttonAuth.style.display="";
@@ -51,7 +65,7 @@ function notAutorized(){
 	function logIn(event){
 		event.preventDefault();
 		
-		if (loginInput.value.trim()){
+		if (validLogin(loginInput.value.trim())){
 			login=loginInput.value.trim();
 			localStorage.setItem('delivery', login);
 			toggleMenuAuth();
@@ -152,14 +166,19 @@ function openGoods(event){
 cartButton.addEventListener("click", toggleModal);
 close.addEventListener("click", toggleModal);
 cardsRestaurants.addEventListener("click",  openGoods);
-logo.addEventListener("click",function(){
-	containerPromo.classList.remove('hide');
-	restaurants.classList.remove('hide');
-	menu.classList.add('hide');
-})
+logo.addEventListener("click",returnMain());
 
 checkAuth();
 createCardsRestaurants();
 createCardsRestaurants();
 createCardsRestaurants();
 
+//Подключаем слайдер
+var mySwiper = new Swiper('.swiper-container', {
+    speed: 400,
+    spaceBetween: 100,
+    autoplay: {
+    	delay: 3000,
+  	},
+  	loop: true,
+});
